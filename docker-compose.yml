@@ -23,7 +23,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: post_article_development
     ports:
-      - "3306:3306"
+      - "3307:3306"
   redis:
     image: redis:7-alpine
     ports:

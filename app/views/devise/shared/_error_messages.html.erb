@@ -1,0 +1,12 @@
+<% if resource.errors.any? %>
+  <div class="error-messages auth-errors" data-turbo-cache="false">
+    <h3>
+      <%= pluralize(resource.errors.count, "個のエラー") %>があります
+    </h3>
+    <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

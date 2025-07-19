@@ -1,0 +1,43 @@
+<div class="articles-index">
+  <div class="page-header">
+    <h1>記事一覧</h1>
+    <% if user_signed_in? %>
+      <%= link_to "新規投稿", new_article_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <% if @articles.any? %>
+    <div class="articles-list">
+      <% @articles.each do |article| %>
+        <article class="article-card">
+          <h2 class="article-title">
+            <%= link_to article.title, article_path(article) %>
+          </h2>
+          <div class="article-meta">
+            <span class="author">投稿者: <%= article.user.email %></span>
+            <span class="date">投稿日: <%= article.created_at.strftime("%Y年%m月%d日") %></span>
+          </div>
+          <div class="article-excerpt">
+            <%= truncate(article.body, length: 200) %>
+          </div>
+          <div class="article-actions">
+            <%= link_to "詳細を見る", article_path(article), class: "btn btn-outline" %>
+            <% if user_signed_in? && article.user == current_user %>
+              <%= link_to "編集", edit_article_path(article), class: "btn btn-secondary" %>
+              <%= link_to "削除", article_path(article), data: { "turbo-method": :delete, "turbo-confirm": "本当に削除しますか？" }, class: "btn btn-danger" %>
+            <% end %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="no-articles">
+      <p>まだ記事が投稿されていません。</p>
+      <% if user_signed_in? %>
+        <%= link_to "最初の記事を投稿する", new_article_path, class: "btn btn-primary" %>
+      <% else %>
+        <p><%= link_to "ログイン", new_user_session_path %>して記事を投稿してみましょう。</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
