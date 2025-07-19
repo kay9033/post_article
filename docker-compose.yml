@@ -1,0 +1,36 @@
+services:
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+      - bundle-cache:/usr/local/bundle
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - redis
+    tty: true
+    stdin_open: true
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    volumes:
+      - db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: post_article_development
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-volume:/data
+volumes:
+  db-volume:
+  redis-volume:
+  bundle-cache:
