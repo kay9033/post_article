@@ -1,0 +1,78 @@
+<div id="title_bar">
+  <div id="title_bar_left">
+    <span class="breadcrumb">
+      <%= link_to "Admin", admin_root_path %>
+      <span class="breadcrumb_sep">/</span>
+      <%= link_to "Users", admin_users_path %>
+      <span class="breadcrumb_sep">/</span>
+      <%= link_to @user.email, admin_user_path(@user) %>
+      <span class="breadcrumb_sep">/</span>
+      Ban
+    </span>
+    <h1 id="page_title">ユーザーBan</h1>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>ユーザー: <%= @user.email %></h3>
+  
+  <%= form_with url: ban_admin_user_path(@user), method: :patch, local: true do |f| %>
+    <div class="panel_contents">
+      <fieldset class="inputs">
+        <ol>
+          <li class="text input required">
+            <%= label_tag :ban_reason, "BANの理由", class: "label" %>
+            <%= text_area_tag :ban_reason, '', rows: 5, class: "form-control", placeholder: "BANの理由を入力してください（必須）", required: true %>
+          </li>
+        </ol>
+      </fieldset>
+      
+      <fieldset class="actions">
+        <ol>
+          <li class="action input_action">
+            <%= submit_tag "BANを実行", class: "btn btn-primary", 
+                          confirm: "#{@user.email}をBANしますか？この操作は取り消せます。" %>
+            <%= link_to "キャンセル", admin_user_path(@user), class: "btn" %>
+          </li>
+        </ol>
+      </fieldset>
+    </div>
+  <% end %>
+</div>
+
+<style>
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 8px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #5e6469;
+  color: white;
+  border-color: #5e6469;
+}
+
+.btn:hover {
+  background: #e6e6e6;
+}
+
+.btn-primary:hover {
+  background: #4a5055;
+}
+</style>

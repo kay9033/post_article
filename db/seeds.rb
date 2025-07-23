@@ -102,3 +102,12 @@ end
 puts "サンプルデータの作成が完了しました！"
 puts "ユーザー: #{User.count}人"
 puts "記事: #{Article.count}件"
+
+# 管理者ユーザーの作成
+if Rails.env.development?
+  admin_user = AdminUser.find_or_create_by!(email: 'admin@example.com') do |admin|
+    admin.password = 'password'
+    admin.password_confirmation = 'password'
+  end
+  puts "管理者ユーザー: #{admin_user.email}"
+end
